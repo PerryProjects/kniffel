@@ -1,8 +1,8 @@
 package diceCupModel
 
 import (
+	"cli-kniffel/model/dice"
 	"cli-kniffel/pkg/cli"
-	"cli-kniffel/pkg/model/dice"
 	"fmt"
 	"math/rand"
 	"time"
@@ -11,21 +11,21 @@ import (
 const numDice = 5
 
 type DiceCup struct {
-	dices [numDice]*dice.Dice
+	dices [numDice]*diceModel.Dice
 }
 
-func (diceCup DiceCup) GetDices() [numDice]*dice.Dice {
+func (diceCup DiceCup) GetDices() [numDice]*diceModel.Dice {
 	return diceCup.dices
 }
 
 func NewDiceCup() *DiceCup {
 	diceCup := DiceCup{}
-	cli.HideCursor()
-	defer cli.ShowCursor()
+	cliOutput.HideCursor()
+	defer cliOutput.ShowCursor()
 	for i := 0; i < rand.Intn(25-10)+10; i++ {
-		cli.ClearScreen()
+		cliOutput.ClearScreen()
 		for j := 0; j < numDice; j++ {
-			newDice := dice.NewDice()
+			newDice := diceModel.NewDice()
 			newDice.Roll()
 			diceCup.dices[j] = newDice
 		}
@@ -36,11 +36,11 @@ func NewDiceCup() *DiceCup {
 	return &diceCup
 }
 
-func PrintDices(dices [numDice]*dice.Dice) {
+func PrintDices(dices [numDice]*diceModel.Dice) {
 	for line := 0; line < 10; line++ {
 		for i := 0; i < 5; i++ {
 			if line != 9 {
-				fmt.Print(dice.Drawings[dices[i].CurrentValue][line] + "    ")
+				fmt.Print(diceModel.Drawings[dices[i].CurrentValue][line] + "    ")
 			} else {
 				if i == 0 {
 					fmt.Printf("     Dice %d", i+1)

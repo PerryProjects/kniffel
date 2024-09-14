@@ -1,8 +1,9 @@
 package diceCupModel
 
+/*
 import (
 	"cli-kniffel/model/dice"
-	"cli-kniffel/pkg/cli"
+	"cli-kniffel/pkg/terminal"
 	"fmt"
 	"math/rand"
 	"time"
@@ -20,10 +21,10 @@ func (diceCup DiceCup) GetDices() [numDice]*diceModel.Dice {
 
 func NewDiceCup() *DiceCup {
 	diceCup := DiceCup{}
-	cliOutput.HideCursor()
-	defer cliOutput.ShowCursor()
+	terminal.HideCursor()
+	defer terminal.ShowCursor()
 	for i := 0; i < rand.Intn(25-10)+10; i++ {
-		cliOutput.ClearScreen()
+		terminal.ClearScreen()
 		for j := 0; j < numDice; j++ {
 			newDice := diceModel.NewDice()
 			newDice.Roll()
@@ -53,3 +54,4 @@ func PrintDices(dices [numDice]*diceModel.Dice) {
 	}
 	fmt.Println("")
 }
+*/

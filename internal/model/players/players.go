@@ -4,6 +4,9 @@ type Player struct {
 	Name string
 }
 
-var Players = []Player{
+var Players = []*Player{
+	{Name: ""},
+	{Name: ""},
+	{Name: ""},
 	{Name: ""},
 }

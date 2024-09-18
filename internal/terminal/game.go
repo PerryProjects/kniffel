@@ -7,64 +7,32 @@ import (
 )
 
 func renderUsersForm() {
+	// Create main grid for players
+	main := tview.NewGrid().
+		SetRows(10, 0, 0, 0, 0, 11).
+		SetColumns(30, 0, 30)
 
-	addUser := func() {
-		players.Players = append(players.Players, players.Player{})
-		renderUsersForm()
-	}
-
-	deleteUser := func(i int) {
-		players.Players = append(players.Players[:i], players.Players[i+1:]...)
-		renderUsersForm()
-	}
-
-	flexRows := tview.NewFlex().SetDirection(tview.FlexRow)
-	formColumn := tview.NewFlex().
-		SetDirection(tview.FlexColumn)
-
+	// Create input fields for each player
 	for i, player := range players.Players {
-		formColumn.
-			AddItem(tview.NewBox(), 0, 2, false)
+		inputField := tview.NewInputField().
+			SetText(player.Name).
+			SetChangedFunc(func(text string) {
+				// Update the player's name whenever the input changes
+				player.Name = text
+			}).
+			SetLabel("Player " + strconv.Itoa(i+1) + ": ")
 
-		formColumn.
-			AddItem(tview.NewInputField().
-				SetLabel("Player "+strconv.Itoa(i+1)).
-				SetText(player.Name),
-				50, 1, false).
-			AddItem(tview.NewBox(), 5, 1, false)
-
-		//if i != 0 {
-		formColumn.
-			AddItem(tview.NewButton("Delete").
-				SetSelectedFunc(func() {
-					deleteUser(i)
-				}),
-				10, 1, false)
-		//}
-
-		formColumn.
-			AddItem(tview.NewBox(), 0, 2, false)
-
+		main.
+			AddItem(inputField, i+1, 1, 1, 1, 0, 0, i == 0)
 	}
-	flexRows.AddItem(formColumn, 1, 0, false)
-	flexRows.AddItem(tview.NewBox(), 1, 0, false)
 
-	b := tview.NewButton("Start Game")
+	// Create grid layout
+	grid := tview.NewGrid().
+		SetRows(0, 30, 0).
+		SetColumns(0, 100, 0).
+		AddItem(main, 1, 1, 1, 1, 0, 100, true)
 
-	addUserButton := tview.NewFlex().
-		SetDirection(tview.FlexColumn).
-		AddItem(nil, 0, 2, false).
-		AddItem(tview.NewButton("Add user").
-			SetSelectedFunc(addUser), 0, 1, true).
-		AddItem(nil, 2, 1, false).
-		AddItem(b, 0, 1, true).
-		AddItem(nil, 0, 2, false)
+	// Set the root of the application
+	App.SetRoot(grid, true)
 
-	// Füge etwas Abstand oberhalb des Buttons hinzu
-	flexRows.AddItem(tview.NewBox(), 2, 0, false)
-
-	// Füge den "Add User"-Button zur Liste hinzu
-	flexRows.AddItem(addUserButton, 1, 0, false)
-
-	App.SetRoot(flexRows, true)
 }
